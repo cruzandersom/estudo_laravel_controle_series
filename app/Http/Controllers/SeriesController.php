@@ -101,6 +101,14 @@ class SeriesController extends Controller
         return view('series.edit')->with('serie', $series);
     }
 
+    public function update(Serie $series, Request $request)
+    {
+       $series->fill($request->all());
+       $series->save();
+
+        return to_route('series.index')->with('mensagem.sucesso', "Série {$series->nome} atualizada com sucesso");
+    }
+
 
 
 }

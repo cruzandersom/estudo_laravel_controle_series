@@ -21,8 +21,8 @@ Route::get('/', function () {
 
 
 // passando rotas padrão
-Route::resource('/series', \App\Http\Controllers\SeriesController::class)
-    ->only(['index','create','store','delete', 'edit']);
+Route::resource('/series', \App\Http\Controllers\SeriesController::class)->except(['show']);
+   // ->only(['index','create','store', 'edit', 'destroy','update']);
 
 /*
  Criando função que cria grupo de rotas
