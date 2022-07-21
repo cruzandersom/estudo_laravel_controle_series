@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SeriesFormRequest;
 use App\Models\Serie;
 use Illuminate\Http\Request;
 use Illuminate\Queue\RedisQueue;
@@ -17,8 +18,8 @@ class SeriesController extends Controller
          * Gerando consulta diretamente usando SQl
          * $series = DB::select('SELECT nome from series;');
          * */
-
-        $series = Serie::query()->orderBy('nome', 'desc')->get();
+        $series = Serie::all();
+        //$series = Serie::query()->orderBy('nome', 'desc')->get();
         // Posso usar a função helper do Laravel para pegar dados da função
         // assim com inseri-los;
         $mensagemSucesso = session('mensagem.sucesso');
@@ -46,7 +47,7 @@ class SeriesController extends Controller
         return view('series.create');
     }
 
-    public function store(Request $request)
+    public function store(SeriesFormRequest $request)
     {
 
         /* É UMA DAS FORMAS DE RESGATAR OS DADOS QUE SÃO ORINUNDOS DE UM REQUEST;
@@ -65,6 +66,10 @@ class SeriesController extends Controller
         /*
          * Existe a forma de usar passando a série  com create:
          */
+        // Passar validação para o código
+        //$request->validate([
+        //   'nome' => ['required','min:3', 'max:255']
+        //]);
         $serie = Serie::create($request->all()); // no fundo esse foi mais fácil;
         // para funcionar preciso colocar o protected $filable = ['nome'] lá na model;
 
@@ -98,10 +103,11 @@ class SeriesController extends Controller
 
     public function edit(Serie $series)
     {
+        //dd($series->temporadas()); // Acesso aos relacionamentos das tabelas through dump and die;
         return view('series.edit')->with('serie', $series);
     }
 
-    public function update(Serie $series, Request $request)
+    public function update(Serie $series, SeriesFormRequest $request)
     {
        $series->fill($request->all());
        $series->save();
