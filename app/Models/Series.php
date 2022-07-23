@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Serie extends Model
+class Series extends Model
 {
     use HasFactory;
     protected $fillable = ['nome'];
-    protected $with = ['temporadas'];
+    protected $with = ['season'];
     protected $primaryKey = 'id';
 
-    public function temporadas()
+    public function season()
     {
         // criando o relacionamento do tipo um para muitos
         return $this->hasMany(Season::class, 'series_id');

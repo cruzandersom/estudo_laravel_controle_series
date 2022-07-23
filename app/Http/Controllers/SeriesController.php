@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Serie;
+use App\Models\Series;
 use Illuminate\Http\Request;
 use Illuminate\Queue\RedisQueue;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +18,7 @@ class SeriesController extends Controller
          * Gerando consulta diretamente usando SQl
          * $series = DB::select('SELECT nome from series;');
          * */
-        $series = Serie::all();
+        $series = Series::all();
         //$series = Serie::query()->orderBy('nome', 'desc')->get();
         // Posso usar a função helper do Laravel para pegar dados da função
         // assim com inseri-los;
@@ -70,7 +70,7 @@ class SeriesController extends Controller
         //$request->validate([
         //   'nome' => ['required','min:3', 'max:255']
         //]);
-        $serie = Serie::create($request->all()); // no fundo esse foi mais fácil;
+        $serie = Series::create($request->all()); // no fundo esse foi mais fácil;
         // para funcionar preciso colocar o protected $filable = ['nome'] lá na model;
 
         // Adicionando mensagem na sesssion:
@@ -79,7 +79,7 @@ class SeriesController extends Controller
     }
 
     // Para deletar diretamente, preciso pegar a model e também o request
-    public function destroy(Serie $series, Request $request)
+    public function destroy(Series $series, Request $request)
     {
         //Serie::destroy($request->serie); // Passando a Serie $series como parametro de rota,posso usar o delete;
         $series->delete();
@@ -101,13 +101,13 @@ class SeriesController extends Controller
     }
 
 
-    public function edit(Serie $series)
+    public function edit(Series $series)
     {
         //dd($series->temporadas()); // Acesso aos relacionamentos das tabelas through dump and die;
         return view('series.edit')->with('serie', $series);
     }
 
-    public function update(Serie $series, SeriesFormRequest $request)
+    public function update(Series $series, SeriesFormRequest $request)
     {
        $series->fill($request->all());
        $series->save();
